@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Secuencia para generar números de solicitud -->
+    <record id="seq_solicitud_interna" model="ir.sequence">
+        <field name="name">Solicitud Interna</field>
+        <field name="code">solicitud.interna</field>
+        <field name="prefix">SOL-</field>
+        <field name="padding">5</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

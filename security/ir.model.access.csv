@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_solicitud_interna_user,solicitud.interna.user,model_solicitud_interna,base.group_user,1,1,1,0
+access_solicitud_interna_manager,solicitud.interna.manager,model_solicitud_interna,base.group_manager,1,1,1,1
+access_solicitud_interna_category_user,solicitud.interna.category.user,model_solicitud_interna_category,base.group_user,1,0,0,0
+access_solicitud_interna_category_manager,solicitud.interna.category.manager,model_solicitud_interna_category,base.group_manager,1,1,1,1

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Búsqueda -->
+    <record id="view_solicitud_interna_search" model="ir.ui.view">
+        <field name="name">solicitud.interna.search</field>
+        <field name="model">solicitud.interna</field>
+        <field name="arch" type="xml">
+            <search string="Buscar Solicitudes">
+                <field name="name"/>
+                <field name="solicitante_id"/>
+                <field name="asignada_id"/>
+                <field name="titulo"/>
+                <filter string="Borrador" name="borrador" domain="[('state','=','borrador')]"/>
+                <filter string="Enviadas" name="enviada" domain="[('state','=','enviada')]"/>
+                <filter string="En Revisión" name="en_revision" domain="[('state','=','en_revision')]"/>
+                <filter string="Aprobadas" name="aprobada" domain="[('state','=','aprobada')]"/>
+                <filter string="Proceso" name="proceso" domain="[('state','=','proceso')]"/>
+                <filter string="Finalizadas" name="finalizada" domain="[('state','=','finalizada')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo'}"/>
+                    <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Prioridad" name="group_prioridad" context="{'group_by': 'prioridad'}"/>
+                    <filter string="Solicitante" name="group_solicitante" context="{'group_by': 'solicitante_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Vista Kanban -->
+    <record id="view_solicitud_interna_kanban" model="ir.ui.view">
+        <field name="name">solicitud.interna.kanban</field>
+        <field name="model">solicitud.interna</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="state"/>
+                <field name="prioridad"/>
+                <field name="tipo"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_notrans">
+                            <div class="row">
+                                <div class="col-12">
+                                    <strong><field name="name"/></strong>
+                                    <br/>
+                                    <field name="titulo"/>
+                                </div>
+                            </div>
+                            <div class="row mt8">
+                                <div class="col-6">
+                                    <span class="badge badge-info"><field name="tipo"/></span>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <span class="badge" t-attf-class="badge-#{record.prioridad.raw_value == 'urgente' ? 'danger' : record.prioridad.raw_value == 'alta' ? 'warning' : 'success'}">
+                                        <field name="prioridad"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vista Tree -->
+    <record id="view_solicitud_interna_tree" model="ir.ui.view">
+        <field name="name">solicitud.interna.tree</field>
+        <field name="model">solicitud.interna</field>
+        <field name="arch" type="xml">
+            <tree string="Solicitudes" default_order="fecha_solicitud desc">
+                <field name="name"/>
+                <field name="titulo"/>
+                <field name="tipo"/>
+                <field name="prioridad"/>
+                <field name="state"/>
+                <field name="solicitante_id"/>
+                <field name="asignada_id"/>
+                <field name="fecha_solicitud"/>
+                <field name="fecha_necesaria"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Form -->
+    <record id="view_solicitud_interna_form" model="ir.ui.view">
+        <field name="name">solicitud.interna.form</field>
+        <field name="model">solicitud.interna</field>
+        <field name="arch" type="xml">
+            <form string="Solicitud Interna">
+                <header>
+                    <button name="action_enviar" string="Enviar" type="object" class="oe_highlight" states="borrador"/>
+                    <button name="action_revisar" string="Revisar" type="object" class="oe_highlight" states="enviada"/>
+                    <button name="action_aprobar" string="Aprobar" type="object" class="oe_highlight" states="en_revision"/>
+                    <button name="action_rechazar" string="Rechazar" type="object" class="oe_highlight" states="en_revision"/>
+                    <button name="action_procesar" string="Procesar" type="object" class="oe_highlight" states="aprobada"/>
+                    <button name="action_finalizar" string="Finalizar" type="object" class="oe_highlight" states="proceso"/>
+                    <button name="action_cancelar" string="Cancelar" type="object" states="borrador,enviada,en_revision,aprobada"/>
+                    <button name="action_reabrir" string="Reabrir" type="object" states="rechazada,finalizada,cancelada"/>
+                    <field name="state" widget="statusbar" statusbar_visible="borrador,enviada,en_revision,aprobada,proceso,finalizada"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Información General">
+                            <field name="name" readonly="1"/>
+                            <field name="titulo"/>
+                            <field name="tipo"/>
+                            <field name="category_id"/>
+                            <field name="prioridad"/>
+                        </group>
+                        <group string="Fechas">
+                            <field name="fecha_solicitud"/>
+                            <field name="fecha_necesaria"/>
+                            <field name="fecha_respuesta"/>
+                        </group>
+                    </group>
+                    <group string="Personas">
+                        <field name="solicitante_id"/>
+                        <field name="departamento_id"/>
+                        <field name="asignada_id"/>
+                    </group>
+                    <group string="Descripción">
+                        <field name="descripcion" placeholder="Describe detalladamente tu solicitud..."/>
+                    </group>
+                    <group string="Respuesta" states="en_revision,aprobada,proceso,finalizada,rechazada">
+                        <field name="solucion"/>
+                    </group>
+                    <group string="Notas" states="finalizada">
+                        <field name="notas_internas"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

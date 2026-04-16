@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú Principal -->
+    <menuitem id="menu_solicitud_internas_root"
+              name="Solicitud Internas"
+              sequence="100"
+              web_icon="solicitud_internas,static/description/icon.png"/>
+
+    <!-- Submenú IT -->
+    <menuitem id="menu_solicitud_it"
+              name="IT"
+              parent="menu_solicitud_internas_root"
+              action="action_solicitud_it"
+              sequence="10"/>
+
+    <!-- Submenú RRHH -->
+    <menuitem id="menu_solicitud_rrhh"
+              name="RRHH"
+              parent="menu_solicitud_internas_root"
+              action="action_solicitud_rrhh"
+              sequence="20"/>
+
+    <!-- Submenú Compras -->
+    <menuitem id="menu_solicitud_compras"
+              name="Compras"
+              parent="menu_solicitud_internas_root"
+              action="action_solicitud_compras"
+              sequence="30"/>
+
+    <!-- Acción para todas las solicitudes -->
+    <record id="action_solicitud_all" model="ir.actions.act_window">
+        <field name="name">Todas las Solicitudes</field>
+        <field name="res_model">solicitud.interna</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay solicitudes internas todavía. Crea la primera.
+            </p>
+        </field>
+    </record>
+
+    <!-- Acción para IT -->
+    <record id="action_solicitud_it" model="ir.actions.act_window">
+        <field name="name">Solicitudes IT</field>
+        <field name="res_model">solicitud.interna</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'default_tipo': 'it'}</field>
+        <field name="domain">[('tipo', '=', 'it')]</field>
+    </record>
+
+    <!-- Acción para RRHH -->
+    <record id="action_solicitud_rrhh" model="ir.actions.act_window">
+        <field name="name">Solicitudes RRHH</field>
+        <field name="res_model">solicitud.interna</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'default_tipo': 'rrhh'}</field>
+        <field name="domain">[('tipo', '=', 'rrhh')]</field>
+    </record>
+
+    <!-- Acción para Compras -->
+    <record id="action_solicitud_compras" model="ir.actions.act_window">
+        <field name="name">Solicitudes Compras</field>
+        <field name="res_model">solicitud.interna</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'default_tipo': 'compras'}</field>
+        <field name="domain">[('tipo', '=', 'compras')]</field>
+    </record>
+</odoo>
