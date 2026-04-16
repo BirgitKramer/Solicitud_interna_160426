@@ -11,7 +11,7 @@
         - Compras (Solicitudes de compra, requisiciones)
     """,
     "category": "Generic",
-    "author": "Tu Empresa",
+    "author": "Birgit KRA",
     "website": "https://tuempresa.com",
     "license": "LGPL-3",
     "depends": ["base", "mail"],
