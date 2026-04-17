@@ -4,7 +4,7 @@
     <menuitem id="menu_solicitud_internas_root"
               name="Solicitud Internas"
               sequence="100"
-              web_icon="solicitud_internas,static/description/icon.png"/>
+              />
 
     <!-- Submenú IT -->
     <menuitem id="menu_solicitud_it"
@@ -40,15 +40,6 @@
         </field>
     </record>
 
-    <!-- Acción para IT -->
-    <record id="action_solicitud_it" model="ir.actions.act_window">
-        <field name="name">Solicitudes IT</field>
-        <field name="res_model">solicitud.interna</field>
-        <field name="view_mode">tree,form,kanban</field>
-        <field name="context">{'default_tipo': 'it'}</field>
-        <field name="domain">[('tipo', '=', 'it')]</field>
-    </record>
-
     <!-- Acción para RRHH -->
     <record id="action_solicitud_rrhh" model="ir.actions.act_window">
         <field name="name">Solicitudes RRHH</field>
@@ -65,5 +56,14 @@
         <field name="view_mode">tree,form,kanban</field>
         <field name="context">{'default_tipo': 'compras'}</field>
         <field name="domain">[('tipo', '=', 'compras')]</field>
+    </record>
+
+    <!-- Acción para IT -->
+    <record id="action_solicitud_it" model="ir.actions.act_window">
+        <field name="name">Solicitudes IT</field>
+        <field name="res_model">solicitud.interna</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{'default_tipo': 'it'}</field>
+        <field name="domain">[('tipo', '=', 'it')]</field>
     </record>
 </odoo>
