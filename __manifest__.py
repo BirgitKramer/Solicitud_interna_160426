@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     "name": "Solicitud Interna",
     "version": "19.0.1.0.0",
@@ -14,7 +13,7 @@
     "author": "Birgit KRA",
     "website": "https://tuempresa.com",
     "license": "LGPL-3",
-    "depends": ["base", "mail"],
+    "depends": ["base", "mail", "hr"],
     "data": [
         "security/ir.model.access.csv",
         "data/secuencia.xml",

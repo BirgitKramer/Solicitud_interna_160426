@@ -1,2 +1,4 @@
 # -*- coding: utf-8 -*-
-from . import solicitud
+# models/__init__.py 
+from . import solicitud_interna
+from . import solicitud_interna_category
