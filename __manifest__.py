@@ -17,8 +17,9 @@
     "data": [
         "security/ir.model.access.csv",
         "data/secuencia.xml",
-        "views/solicitud_menu.xml",
         "views/solicitud_views.xml",
+        "views/solicitud_menu.xml",
+        
     ],
     "installable": True,
     "application": True,
