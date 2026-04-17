@@ -16,7 +16,7 @@
                 <filter string="Aprobadas" name="aprobada" domain="[('state','=','aprobada')]"/>
                 <filter string="Proceso" name="proceso" domain="[('state','=','proceso')]"/>
                 <filter string="Finalizadas" name="finalizada" domain="[('state','=','finalizada')]"/>
-                <group expand="0" string="Group By">
+                <group string="Group By">
                     <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo'}"/>
                     <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
                     <filter string="Prioridad" name="group_prioridad" context="{'group_by': 'prioridad'}"/>
