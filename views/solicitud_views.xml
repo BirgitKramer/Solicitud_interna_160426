@@ -10,13 +10,16 @@
                 <field name="solicitante_id"/>
                 <field name="asignada_id"/>
                 <field name="titulo"/>
+                
+                <separator/>
                 <filter string="Borrador" name="borrador" domain="[('state','=','borrador')]"/>
                 <filter string="Enviadas" name="enviada" domain="[('state','=','enviada')]"/>
                 <filter string="En Revisión" name="en_revision" domain="[('state','=','en_revision')]"/>
                 <filter string="Aprobadas" name="aprobada" domain="[('state','=','aprobada')]"/>
                 <filter string="Proceso" name="proceso" domain="[('state','=','proceso')]"/>
                 <filter string="Finalizadas" name="finalizada" domain="[('state','=','finalizada')]"/>
-                <group string="Group By">
+                
+                <group expand="0">
                     <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo'}"/>
                     <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
                     <filter string="Prioridad" name="group_prioridad" context="{'group_by': 'prioridad'}"/>
@@ -72,7 +75,7 @@
                 <field name="titulo"/>
                 <field name="tipo"/>
                 <field name="prioridad"/>
-                <field name="state"/>
+                <field name="state" widget="badge" decoration-info="state == 'enviada'" decoration-warning="state == 'en_revision'" decoration-success="state == 'finalizada'"/>
                 <field name="solicitante_id"/>
                 <field name="asignada_id"/>
                 <field name="fecha_solicitud"/>
@@ -88,14 +91,15 @@
         <field name="arch" type="xml">
             <form string="Solicitud Interna">
                 <header>
-                    <button name="action_enviar" string="Enviar" type="object" class="oe_highlight" states="borrador"/>
-                    <button name="action_revisar" string="Revisar" type="object" class="oe_highlight" states="enviada"/>
-                    <button name="action_aprobar" string="Aprobar" type="object" class="oe_highlight" states="en_revision"/>
-                    <button name="action_rechazar" string="Rechazar" type="object" class="oe_highlight" states="en_revision"/>
-                    <button name="action_procesar" string="Procesar" type="object" class="oe_highlight" states="aprobada"/>
-                    <button name="action_finalizar" string="Finalizar" type="object" class="oe_highlight" states="proceso"/>
-                    <button name="action_cancelar" string="Cancelar" type="object" states="borrador,enviada,en_revision,aprobada"/>
-                    <button name="action_reabrir" string="Reabrir" type="object" states="rechazada,finalizada,cancelada"/>
+                    <!-- Corrección: Usar invisible en lugar de states -->
+                    <button name="action_enviar" string="Enviar" type="object" class="oe_highlight" invisible="state != 'borrador'"/>
+                    <button name="action_revisar" string="Revisar" type="object" class="oe_highlight" invisible="state != 'enviada'"/>
+                    <button name="action_aprobar" string="Aprobar" type="object" class="oe_highlight" invisible="state != 'en_revision'"/>
+                    <button name="action_rechazar" string="Rechazar" type="object" class="oe_highlight" invisible="state != 'en_revision'"/>
+                    <button name="action_procesar" string="Procesar" type="object" class="oe_highlight" invisible="state != 'aprobada'"/>
+                    <button name="action_finalizar" string="Finalizar" type="object" class="oe_highlight" invisible="state != 'proceso'"/>
+                    <button name="action_cancelar" string="Cancelar" type="object" invisible="state not in ['borrador','enviada','en_revision','aprobada']"/>
+                    <button name="action_reabrir" string="Reabrir" type="object" invisible="state not in ['rechazada','finalizada','cancelada']"/>
                     <field name="state" widget="statusbar" statusbar_visible="borrador,enviada,en_revision,aprobada,proceso,finalizada"/>
                 </header>
                 <sheet>
@@ -121,10 +125,11 @@
                     <group string="Descripción">
                         <field name="descripcion" placeholder="Describe detalladamente tu solicitud..."/>
                     </group>
-                    <group string="Respuesta" states="en_revision,aprobada,proceso,finalizada,rechazada">
+                    <!-- Corrección: invisible en lugar de states -->
+                    <group string="Respuesta" invisible="state not in ['en_revision','aprobada','proceso','finalizada','rechazada']">
                         <field name="solucion"/>
                     </group>
-                    <group string="Notas" states="finalizada">
+                    <group string="Notas" invisible="state != 'finalizada'">
                         <field name="notas_internas"/>
                     </group>
                 </sheet>
