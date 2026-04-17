@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Vista de Búsqueda: Eliminados todos los atributos no soportados -->
+    <!-- Vista de Búsqueda -->
     <record id="view_solicitud_interna_search" model="ir.ui.view">
         <field name="name">solicitud.interna.search</field>
         <field name="model">solicitud.interna</field>
@@ -10,20 +10,11 @@
                 <field name="solicitante_id"/>
                 <field name="asignada_id"/>
                 <field name="titulo"/>
-                
                 <separator/>
                 <filter string="Borrador" name="borrador" domain="[('state','=','borrador')]"/>
-                <filter string="Enviadas" name="enviada" domain="[('state','=','enviada')]"/>
-                <filter string="En Revisión" name="en_revision" domain="[('state','=','en_revision')]"/>
-                <filter string="Aprobadas" name="aprobada" domain="[('state','=','aprobada')]"/>
-                <filter string="Proceso" name="proceso" domain="[('state','=','proceso')]"/>
                 <filter string="Finalizadas" name="finalizada" domain="[('state','=','finalizada')]"/>
-                
                 <group>
-                    <filter string="Tipo" name="group_tipo" context="{'group_by': 'tipo'}"/>
                     <filter string="Estado" name="group_state" context="{'group_by': 'state'}"/>
-                    <filter string="Prioridad" name="group_prioridad" context="{'group_by': 'prioridad'}"/>
-                    <filter string="Solicitante" name="group_solicitante" context="{'group_by': 'solicitante_id'}"/>
                 </group>
             </search>
         </field>
@@ -36,17 +27,12 @@
         <field name="arch" type="xml">
             <kanban default_group_by="state">
                 <field name="state"/>
-                <field name="prioridad"/>
-                <field name="tipo"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
-                            <div class="row">
-                                <div class="col-12">
-                                    <strong><field name="name"/></strong>
-                                    <br/>
-                                    <field name="titulo"/>
-                                </div>
+                            <div class="oe_kanban_details">
+                                <strong><field name="name"/></strong>
+                                <div><field name="titulo"/></div>
                             </div>
                         </div>
                     </t>
@@ -55,24 +41,21 @@
         </field>
     </record>
 
-    <!-- Vista Tree -->
+    <!-- Vista List (ANTIGUA TREE) -->
     <record id="view_solicitud_interna_tree" model="ir.ui.view">
-        <field name="name">solicitud.interna.tree</field>
+        <field name="name">solicitud.interna.list</field>
         <field name="model">solicitud.interna</field>
         <field name="arch" type="xml">
-            <tree default_order="fecha_solicitud desc">
+            <list default_order="fecha_solicitud desc">
                 <field name="name"/>
                 <field name="titulo"/>
-                <field name="tipo"/>
-                <field name="prioridad"/>
                 <field name="state" widget="badge"/>
                 <field name="solicitante_id"/>
-                <field name="fecha_solicitud"/>
-            </tree>
+            </list>
         </field>
     </record>
 
-    <!-- Vista Form: Eliminados atributos 'states' y 'string' en groups de búsqueda -->
+    <!-- Vista Form -->
     <record id="view_solicitud_interna_form" model="ir.ui.view">
         <field name="name">solicitud.interna.form</field>
         <field name="model">solicitud.interna</field>
@@ -80,30 +63,28 @@
             <form>
                 <header>
                     <button name="action_enviar" string="Enviar" type="object" class="oe_highlight" invisible="state != 'borrador'"/>
-                    <button name="action_revisar" string="Revisar" type="object" class="oe_highlight" invisible="state != 'enviada'"/>
-                    <button name="action_aprobar" string="Aprobar" type="object" class="oe_highlight" invisible="state != 'en_revision'"/>
-                    <button name="action_rechazar" string="Rechazar" type="object" class="oe_highlight" invisible="state != 'en_revision'"/>
-                    <button name="action_procesar" string="Procesar" type="object" class="oe_highlight" invisible="state != 'aprobada'"/>
-                    <button name="action_finalizar" string="Finalizar" type="object" class="oe_highlight" invisible="state != 'proceso'"/>
-                    <field name="state" widget="statusbar" statusbar_visible="borrador,enviada,en_revision,aprobada,proceso,finalizada"/>
+                    <button name="action_finalizar" string="Finalizar" type="object" class="oe_highlight" invisible="state == 'finalizada'"/>
+                    <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
                     <group>
-                        <group string="Información">
-                            <field name="name" readonly="1"/>
+                        <group>
                             <field name="titulo"/>
-                            <field name="tipo"/>
+                            <field name="solicitante_id"/>
+                        </group>
+                        <group>
+                            <field name="fecha_solicitud"/>
                             <field name="prioridad"/>
                         </group>
-                        <group string="Fechas">
-                            <field name="fecha_solicitud"/>
-                            <field name="fecha_necesaria"/>
-                        </group>
                     </group>
-                    <group>
-                        <field name="descripcion"/>
-                        <field name="solucion" invisible="state not in ['aprobada','proceso','finalizada']"/>
-                    </group>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="descripcion"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
