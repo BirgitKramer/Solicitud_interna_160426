@@ -16,7 +16,7 @@
     "license": "LGPL-3",
     "depends": ["base", "mail"],
     "data": [
-        "security/ir.model.access.xml",
+        "security/ir.model.access.csv",
         "data/secuencia.xml",
         "views/solicitud_menu.xml",
         "views/solicitud_views.xml",
