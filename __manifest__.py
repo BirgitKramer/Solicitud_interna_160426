@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "Solicitud Internas",
+    "name": "Solicitud Interna",
     "version": "19.0.1.0.0",
     "summary": "Gestion de solicitudes internas (IT, RRHH, Compras)",
     "description": """
